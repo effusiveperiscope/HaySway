@@ -35,8 +35,7 @@ class AudioFilesInput(QFrame):
         super().__init__()
 
         self.layout = QVBoxLayout(self)
-        self.layout.setSpacing(0)
-        self.layout.setContentsMargins(0,0,0,0)
+        self.layout.setSpacing(4)
 
         self.files = []
 
@@ -44,7 +43,7 @@ class AudioFilesInput(QFrame):
         self.file_button.fileDropped.connect(self.file_cb)
         self.layout.addWidget(self.file_button)
 
-        self.file_label = QLabel("Files: "+str(files))
+        self.file_label = QLabel("Files: "+str(self.files))
         self.file_label.setWordWrap(True)
         self.layout.addWidget(self.file_label)
 
@@ -62,5 +61,5 @@ class AudioFilesInput(QFrame):
             self.preview.setText("Preview - "+str(files[0]))
             self.preview.from_file(files[0])
 
-    def load_files(self, files : list)
+    def load_files(self, files : list):
         self.file_cb(files)

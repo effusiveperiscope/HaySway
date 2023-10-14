@@ -1,13 +1,13 @@
+from PyQt5.QtCore import (QSize)
 from PyQt5.QtWidgets import (QFrame, QLineEdit, QLabel, QHBoxLayout, QCheckBox,
-    QComboBox)
+    QComboBox, QSizePolicy)
 
 class NumField(QFrame):
     def __init__(self, label : str, default : str, validator):
         super().__init__()
 
         self.layout = QHBoxLayout(self)
-        self.layout.setSpacing(0)
-        self.layout.setContentsMargins(0,0,0,0)
+        self.layout.setSpacing(4)
 
         self.label = QLabel(label)
         self.layout.addWidget(self.label)
@@ -15,6 +15,8 @@ class NumField(QFrame):
         self.field = QLineEdit(default)
         self.field.setValidator(validator)
         self.layout.addWidget(self.field)
+        self.field.setSizePolicy(QSizePolicy.Maximum,
+            QSizePolicy.Preferred)
 
     @property
     def value(self):
@@ -25,14 +27,16 @@ class BoolField(QFrame):
         super().__init__()
 
         self.layout = QHBoxLayout(self)
-        self.layout.setSpacing(0)
-        self.layout.setContentsMargins(0,0,0,0)
+        self.layout.setSpacing(4)
 
         self.label = QLabel(label)
         self.layout.addWidget(self.label)
 
-        self.field = QCheckBox(default)
+        self.field = QCheckBox()
+        self.field.setCheckState(default)
         self.layout.addWidget(self.field)
+        self.field.setSizePolicy(QSizePolicy.Maximum,
+            QSizePolicy.Preferred)
 
     @property
     def value(self):
@@ -43,16 +47,17 @@ class ComboField(QFrame):
         super().__init__()
 
         self.layout = QHBoxLayout(self)
-        self.layout.setSpacing(0)
-        self.layout.setContentsMargins(0,0,0,0)
+        self.layout.setSpacing(4)
 
         self.label = QLabel(label)
         self.layout.addWidget(self.label)
 
-        self.field = QComboBox(default)
+        self.field = QComboBox()
         for item in items:
             self.field.addItem(item)
         self.layout.addWidget(self.field)
+        self.field.setSizePolicy(QSizePolicy.Maximum,
+            QSizePolicy.Preferred)
 
     @property
     def value(self):

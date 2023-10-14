@@ -1,7 +1,8 @@
 import os
 from collections import deque
 from PyQt5.QtWidgets import (QApplication, QComboBox, QMainWindow, QFileDialog,
-    QLabel, QFrame, QHBoxLayout, QVBoxLayout)
+    QLabel, QFrame, QHBoxLayout, QVBoxLayout, QPlainTextEdit,
+    QPushButton)
 from PyQt5.QtGui import (QIntValidator, QDoubleValidator, QKeySequence,
     QDrag)
 from file_input import AudioFilesInput
@@ -17,20 +18,20 @@ class AbstractVCFrame(QFrame):
         super().__init__()
 
         self.layout = QVBoxLayout(self)
-        self.layout.setSpacing(0)
-        self.layout.setContentsMargins(0,0,0,0)
+        self.layout.setSpacing(4)
 
     def input_dict(self):
         return {}
 
     def postinit(self):
-        self.push_button = QPushButton()
+        self.push_button = QPushButton("Push to VC")
         self.layout.addWidget(self.push_button)
         self.push_button.clicked.connect(self.push_to_vc)
 
         self.output_preview = AudioPreviewWidget()
-        self.layout.addWidget(self.preview)
-        # then do things related to pushing
+        self.layout.addWidget(self.output_preview)
+
+        self.layout.addStretch()
 
     def load_file_ext(self, file):
         assert hasattr(self, "audio_input")
@@ -75,6 +76,7 @@ class ControllableTalkNetFrame(AbstractVCFrame):
         self.text_input = QPlainTextEdit()
         self.layout.addWidget(self.text_input)
 
+        self.layout.addWidget(QLabel("Character"))
         self.character_dropdown = CharacterDropdown(self.id)
         self.layout.addWidget(self.character_dropdown)
 
@@ -92,7 +94,7 @@ class ControllableTalkNetFrame(AbstractVCFrame):
         return {
             'Architecture': self.id,
             'Character': self.character_dropdown.currentText(),
-            'Disable Reference Audio': self.disable_reference_audio.value
+            'Disable Reference Audio': self.disable_reference_audio.value,
             'Pitch Factor': int(self.pitch_factor.value),
             'Auto Tune': self.auto_tune.value,
             'Reduce Metallic Sound': self.reduce_metallic_sound.value}
@@ -112,6 +114,7 @@ class SoVitsSvc3Frame(AbstractVCFrame):
         self.audio_input = AudioFilesInput()
         self.layout.addWidget(self.audio_input)
 
+        self.layout.addWidget(QLabel("Character"))
         self.character_dropdown = CharacterDropdown(self.id)
         self.layout.addWidget(self.character_dropdown)
 
@@ -140,14 +143,15 @@ class SoVitsSvc4Frame(AbstractVCFrame):
         self.audio_input = AudioFilesInput()
         self.layout.addWidget(self.audio_input)
 
+        self.layout.addWidget(QLabel("Character"))
         self.character_dropdown = CharacterDropdown(self.id)
         self.layout.addWidget(self.character_dropdown)
 
         self.pitch_factor = NumField("Transpose", "0", QIntValidator(-36,36))
         self.character_likeness = NumField("Character Similarity", "0.0",
-           QDoubleValidator(0,1.0))
+           QDoubleValidator(0.0,1.0,2))
         self.noise_scale = NumField("Noise Scale", "0.0",
-            QDoubleValidator(0,1.0))
+            QDoubleValidator(0.0,1.0,2))
         self.predict_pitch = BoolField("Predict pitch")
         self.reduce_hoarseness = BoolField("Reduce hoarseness")
         self.apply_nsf_hifigan = BoolField("Apply NSF-HiFiGAN")
@@ -169,7 +173,7 @@ class SoVitsSvc4Frame(AbstractVCFrame):
             'Character Likeness': float(self.character_likeness.value),
             'Reduce Hoarseness': self.reduce_hoarseness.value,
             'Apply nsf_hifigan': self.apply_nsf_hifigan.value,
-            "Noise Scale", float(self.noise_scale.value)}
+            "Noise Scale": float(self.noise_scale.value)}
 
     def out_filename(self, filename):
         return (f"{Path(filename).stem}_{self.pitch_factor.value}_"
@@ -186,6 +190,7 @@ class SoVitsSvc5Frame(AbstractVCFrame):
         self.audio_input = AudioFilesInput()
         self.layout.addWidget(self.audio_input)
 
+        self.layout.addWidget(QLabel("Character"))
         self.character_dropdown = CharacterDropdown(self.id)
         self.layout.addWidget(self.character_dropdown)
 
@@ -214,6 +219,7 @@ class RVCFrame(AbstractVCFrame):
         self.audio_input = AudioFilesInput()
         self.layout.addWidget(self.audio_input)
 
+        self.layout.addWidget(QLabel("Character"))
         self.character_dropdown = CharacterDropdown(self.id)
         self.layout.addWidget(self.character_dropdown)
 
@@ -223,12 +229,12 @@ class RVCFrame(AbstractVCFrame):
         self.filter_radius = NumField("Filter radius", "0",
             QIntValidator(0,20))
         self.character_likeness = NumField("Character Similarity", "0.0",
-           QDoubleValidator(0,1.0))
+           QDoubleValidator(0.0,1.0,2))
         self.voice_envelope_mix_ratio = NumField("Voice Envelope Mix Ratio",
-           "0.0", QDoubleValidator(0,1.0))
+           "0.0", QDoubleValidator(0.0,1.0,2))
         self.voiceless_consonants_protection_ratio = NumField(
             "Voiceless Consonants Protection Ratio", "0.0",
-            QDoubleValidator(0,1.0))
+            QDoubleValidator(0.0,1.0,2))
 
         self.layout.addWidget(self.pitch_factor)
         self.layout.addWidget(self.f0_extraction_method)

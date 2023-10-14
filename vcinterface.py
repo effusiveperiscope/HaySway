@@ -1,8 +1,9 @@
 from http.client import HTTPConnection
-from docker_bridge import APP_PORT
+from docker_bridge.main import APP_PORT
 from recorder import RECORD_DIR
 from pathlib import Path
 import requests
+import os
 
 class VCInterface:
     OUTPUT_PATH = "results"
@@ -11,14 +12,15 @@ class VCInterface:
         os.makedirs(VCInterface.OUTPUT_PATH, exist_ok=True)
         os.makedirs(RECORD_DIR, exist_ok=True)
 
-        vc_info = requests.get('127.0.0.1:'+str(APP_PORT)+'/info').json()
+        vc_info = requests.get('http://127.0.0.1:'+str(APP_PORT)+'/info').json()
 
     def input(self, options : dict, user_text : str, user_file_path : str,
-              output_filename_cb)
+              output_filename_cb):
         # user_file is on local side
         with open(user_file_path, 'rb') as user_file:
-            response = requests.post('127.0.0.1:'+str(APP_PORT)+'/upload_raw',
-                files = {'audio_file': (user_file_path, user_file)})
+            response = requests.post('http://127.0.0.1:'+str(APP_PORT)+
+                '/upload_raw', files = {
+                    'audio_file': (user_file_path, user_file)})
             saved_file = response.json()['saved_file']
 
         # Gets the filename Path().name
@@ -35,14 +37,14 @@ class VCInterface:
             'Output File': output_filename
         }
         
-        response = requests.post('127.0.0.1:'+str(APP_PORT)+'/generate',
+        response = requests.post('http://127.0.0.1:'+str(APP_PORT)+'/generate',
             json, headers={'Content-Type': 'application/json'}, data=payload)
         code = response.status_code
         if code != 200:
             raise Exception("Docker bridge returned non-200 error code "+
                 str(code))
 
-        response = requests.get('127.0.0.1:'+str(APP_PORT)+'/download/'+
+        response = requests.get('http://127.0.0.1:'+str(APP_PORT)+'/download/'+
             output_filename)
         output_path = str(os.path.join(VCInterface.OUTPUT_PATH,
            output_filename))

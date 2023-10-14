@@ -1,5 +1,4 @@
 from flask import Flask, request, jsonify, abort, send_file
-from hay_say_common import character_dir, AUDIO_FOLDER
 from werkzeug.utils import secure_filename
 import requests
 import os
@@ -11,8 +10,6 @@ APP_PORT = 7802
 app = Flask(__name__)
 
 # We cannot use RAW_DIR unless we are planning to match Hay Say's metadata.
-HAY_SWAY_RAW_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_raw")
-HAY_SWAY_OUT_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_out")
 
 # Mapping of archs to internal and port
 arch_to_destination = {
@@ -41,6 +38,9 @@ def generate():
 
 @app.route('/upload_raw', methods=['POST'])
 def upload_raw():
+    from hay_say_common import character_dir, AUDIO_FOLDER
+    HAY_SWAY_RAW_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_raw")
+
     if 'audio_file' not in request.files:
         return 'No audio file part'
 
@@ -52,6 +52,9 @@ def upload_raw():
 
 @app.route('/download/<filename>', methods=['GET'])
 def download(filename):
+    from hay_say_common import character_dir, AUDIO_FOLDER
+    HAY_SWAY_OUT_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_out")
+
     file_path = os.path.join(HAY_SWAY_OUT_DIR, filename)
     if not os.path.exists(file_path):
         return abort(404)
@@ -59,6 +62,10 @@ def download(filename):
 
 @app.route('/info', methods = ['GET'])
 def info():
+    from hay_say_common import character_dir, AUDIO_FOLDER
+    HAY_SWAY_RAW_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_raw")
+    HAY_SWAY_OUT_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_out")
+
     return jsonify({
         'HAY_SWAY_RAW_DIR': HAY_SWAY_RAW_DIR,
         'HAY_SWAY_OUT_DIR': HAY_SWAY_OUT_DIR

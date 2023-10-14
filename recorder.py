@@ -1,21 +1,24 @@
 from PyQt5.QtWidgets import (QApplication, QComboBox, QMainWindow, QFileDialog,
-    QLabel, QFrame, QHBoxLayout, QVBoxLayout)
+    QLabel, QFrame, QHBoxLayout, QVBoxLayout, QGroupBox, QSizePolicy,
+    QPushButton, QProgressBar)
 from PyQt5.QtMultimedia import (
    QMediaContent, QAudio, QAudioDeviceInfo, QMediaPlayer, QAudioRecorder,
    QAudioEncoderSettings, QMultimedia,
    QAudioProbe, QAudioFormat)
 from preview import AudioPreviewWidget
 from misc import el_trunc
+import os
 
 RECORD_DIR = "recordings"
 
-class AudioRecorder(QFrame):
+class AudioRecorder(QGroupBox):
     def __init__(self, vc_push_fn):
         super().__init__()
 
         self.setTitle("Audio recorder")
         self.setStyleSheet("padding:10px")
         self.layout = QVBoxLayout(self)
+        self.layout.setSpacing(4)
         
         self.audio_settings = QAudioEncoderSettings()
         if os.name == "nt":
@@ -77,9 +80,11 @@ class AudioRecorder(QFrame):
         self.last_output = ""
 
         self.push_button = QPushButton("Push last output to voice conversion")
-        self.layout.addWidget(self.sovits_button)
+        self.layout.addWidget(self.push_button)
         self.push_button.clicked.connect(self.push_to_vc)
         self.vc_push_fn = vc_push_fn
+
+        self.layout.addStretch()
 
     def update_volume(self, buf):
         sample_size = buf.format().sampleSize()

@@ -1,6 +1,6 @@
 import os
 from collections import deque
-from PyQt5.QtCore import (pyqtSignal)
+from PyQt5.QtCore import (pyqtSignal, QObject)
 from PyQt5.QtWidgets import (QApplication, QComboBox, QMainWindow, QFileDialog,
     QFrame, QHBoxLayout, QVBoxLayout)
 
@@ -25,7 +25,7 @@ class RecentDirComboBox(QComboBox):
             combo.addItem(RecentDirs.backtruncate_path(d))
 
 # Shared "recent directories" menu
-class RecentDirs:
+class RecentDirs(QObject):
     file_updated = pyqtSignal(str)
 
     def backtruncate_path(path, n=80):
@@ -46,11 +46,12 @@ class RecentDirs:
         pth = os.path.join(*spl)
         return '...'+pth
 
-    def create_combo(file_cb):
+    def create_combo(self, file_cb):
         combo = RecentDirComboBox(self, file_cb)
         return combo
 
     def __init__(self):
+        super().__init__()
         self.recent_dirs = deque(maxlen=RECENT_DIR_MAXLEN)
 
     def from_list(self, l):

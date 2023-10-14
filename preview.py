@@ -2,7 +2,9 @@ from PyQt5.QtCore import (Qt, QMimeData)
 from PyQt5.QtGui import (QDrag)
 from PyQt5.QtWidgets import (QWidget, QApplication, QComboBox, QMainWindow,
                              QFileDialog, QLabel, QFrame, QHBoxLayout,
-                             QVBoxLayout, QSlider, QSizePolicy)
+                             QVBoxLayout, QSlider, QSizePolicy,
+                             QPushButton, QStyle)
+from PyQt5.QtMultimedia import (QMediaPlayer)
 
 class AudioPreviewWidget(QWidget):
     def __init__(self):
