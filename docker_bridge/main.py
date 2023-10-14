@@ -36,10 +36,7 @@ def generate():
 
     # Forward the request to the internal IP and port
     response = requests.post(url, json=data)
-    if response.status_code != 200:
-        print(response.content)
-        return "internal error", response.status_code
-    return ""
+    return response.content, response.status_code
 
 @app.route('/upload_raw', methods=['POST'])
 def upload_raw():
