@@ -8,7 +8,8 @@ class CharacterDropdown(QComboBox):
         super().__init__()
         self.characters = []
 
-        response = requests.get(f'http://0.0.0.0:{APP_PORT}',
+        response = requests.get(
+            f'http://0.0.0.0:{APP_PORT}/available_characters',
             json={'architecture': arch})
         if response.status_code != 200:
             raise Exception("Non-200 status code for character dropdown: "
