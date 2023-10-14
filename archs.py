@@ -14,6 +14,7 @@ from pathlib import Path
 
 class AbstractVCFrame(QFrame):
     vc_interface = VCInterface()
+
     def __init__(self):
         super().__init__()
 
@@ -22,6 +23,10 @@ class AbstractVCFrame(QFrame):
 
     def input_dict(self):
         return {}
+
+    @property
+    def convert_override(self):
+        return False
 
     def postinit(self):
         self.push_button = QPushButton("Push to VC")
@@ -45,15 +50,22 @@ class AbstractVCFrame(QFrame):
 
         assert hasattr(self, "audio_input")
 
-        if len(self.audio_input.files) == 0:
-            return
         file_outputs = []
-        for file in self.audio_input.files:
+        if len(self.audio_input.files) > 0:
+            for file in self.audio_input.files:
+                output_file = AbstractVCFrame.vc_interface.input(
+                    options = self.input_dict(),
+                    user_text = user_text, user_file_path = file,
+                    output_filename_cb = self.out_filename)
+                file_outputs.append(output_file)
+        elif self.convert_override:
             output_file = AbstractVCFrame.vc_interface.input(
-                options = self.input_dict,
-                user_text = user_text, user_file = file,
+                options = self.input_dict(),
+                user_text = user_text, user_file_path = None,
                 output_filename_cb = self.out_filename)
             file_outputs.append(output_file)
+        else:
+            print("No file; can't convert")
 
         self.output_preview.set_text("Preview - "+str(file_outputs[0]))
         self.output_preview.from_file(file_outputs[0])
@@ -89,6 +101,10 @@ class ControllableTalkNetFrame(AbstractVCFrame):
         self.layout.addWidget(self.auto_tune)
         self.layout.addWidget(self.reduce_metallic_sound)
         self.postinit()
+
+    @property
+    def convert_override(self):
+        return self.disable_reference_audio.value
 
     def input_dict(self):
         return {

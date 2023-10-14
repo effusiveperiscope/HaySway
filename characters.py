@@ -14,7 +14,7 @@ class CharacterDropdown(QComboBox):
         if response.status_code != 200:
             raise Exception("Non-200 status code for character dropdown: "
                 +str(response.status_code))
-        self.characters = response.json['characters']
+        self.characters = response.json()['characters']
 
         for c in self.characters:
             self.addItem(c)

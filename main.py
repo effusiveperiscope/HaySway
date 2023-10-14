@@ -43,7 +43,33 @@ def interrupt_handler(signal, frame):
     traceback.print_stack(frame)
     sys.exit(1)  # Exit the script with a non-zero status
 
+def test():
+    import requests
+    payload = {
+        'architecture': 'controllable_talknet',
+        'Inputs': {
+            'User Text': 'butt',
+            'User Audio': ''
+        },
+        'Options': {
+            'Architecture': 'controllable_talknet',
+            'Character': 'Twilight Sparkle',
+            'Disable Reference Audio': True,
+            'Pitch Factor': 0,
+            'Auto Tune': False,
+            'Reduce Metallic Sound': False},
+        'Output File': "a.wav"
+    }
+
+    response = requests.post('http://127.0.0.1:7802'+'/generate',
+        headers={'Content-Type': 'application/json'}, json=payload)
+    code = response.status_code
+    if code != 200:
+        raise Exception("Docker bridge returned non-200 error code "+
+            str(code))
+
 if __name__ == "__main__":
+    #test()
     app = QApplication(sys.argv)
 
     w = MainWindow()
