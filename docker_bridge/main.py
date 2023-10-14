@@ -25,19 +25,23 @@ def handle_exception(e):
 
 @app.route('/generate', methods=['POST'])
 def generate():
-    data = request.get_json()
-    arch = data.get('architecture', None)
+    try:
+        data = request.get_json()
+        arch = data.get('architecture', None)
 
-    if arch not in arch_to_destination:
-        return jsonify({'error': 'Invalid architecture'}), 400
+        if arch not in arch_to_destination:
+            return jsonify({'error': 'Invalid architecture'}), 400
 
-    destination_port = arch_to_destination[arch]
-    url = f"http://0.0.0.0:{destination_port}"
+        destination_port = arch_to_destination[arch]
+        url = f"http://localhost:{destination_port}"
 
-    # Forward the request to the internal IP and port
-    response = requests.post(url, json=data)
+        # Forward the request to the internal IP and port
+        response = requests.post(url, json=data)
 
-    return jsonify({'response': response.json()})
+        return jsonify({'response': response.json()})
+    except Exception as e:
+        print(e)
+        return jsonify({'error': str(e)}), 400
 
 @app.route('/upload_raw', methods=['POST'])
 def upload_raw():
