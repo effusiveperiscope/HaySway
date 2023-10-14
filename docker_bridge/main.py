@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify, abort, send_file
 from hay_say_common import character_dir, AUDIO_FOLDER
-from werkzeug import secure_filename
+from werkzeug.utils import secure_filename
 import requests
 import os
-import Pathlib
+from pathlib import Path
 
 MODELS_ROOT = "/root/hay_say/models"
 APP_PORT = 7802
@@ -41,7 +41,7 @@ def generate():
 
 @app.route('/upload_raw', methods=['POST'])
 def upload_raw():
-    if 'audio_file' not in request.files
+    if 'audio_file' not in request.files:
         return 'No audio file part'
 
     file = request.files['audio_file']
@@ -52,7 +52,7 @@ def upload_raw():
 
 @app.route('/download/<filename>', methods=['GET'])
 def download(filename):
-    file_path = os.path.join(HAY_SWAY_OUT_DIR, filename):
+    file_path = os.path.join(HAY_SWAY_OUT_DIR, filename)
     if not os.path.exists(file_path):
         return abort(404)
     return send_file(file_path)
