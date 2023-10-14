@@ -19,6 +19,10 @@ arch_to_destination = {
     "rvc": 6578,
 }
 
+@app.errorhandler(Exception)
+def handle_exception(e):
+    print(e)
+
 @app.route('/generate', methods=['POST'])
 def generate():
     data = request.get_json()
