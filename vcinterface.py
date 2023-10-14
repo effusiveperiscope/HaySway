@@ -44,9 +44,10 @@ class VCInterface:
         }
         
         response = requests.post('http://127.0.0.1:'+str(APP_PORT)+'/generate',
-            headers={'Content-Type': 'application/json'}, data=payload)
+            headers={'Content-Type': 'application/json'}, json=payload)
         code = response.status_code
         if code != 200:
+            print(response.json())
             raise Exception("Docker bridge returned non-200 error code "+
                 str(code))
 

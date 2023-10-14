@@ -22,6 +22,7 @@ RUN ~/hay_say/.venvs/hay_sway_bridge/bin/pip install \
 EXPOSE 7802
 
 # Download bridge code
+ADD "https://api.github.com/repos/effusiveperiscope/HaySway/commits?per_page=1" latest_commit
 RUN mkdir -p ~/hay_say/hay_sway_bridge
 RUN wget \
     https://raw.githubusercontent.com/effusiveperiscope/HaySway/main/docker_bridge/main.py \
