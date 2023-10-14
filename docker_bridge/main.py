@@ -37,7 +37,7 @@ def generate():
 
 @app.route('/upload_raw', methods=['POST'])
 def upload_raw():
-    from hay_say_common import character_dir, AUDIO_FOLDER
+    from hay_say_common import characters_dir, AUDIO_FOLDER
     HAY_SWAY_RAW_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_raw")
 
     if 'audio_file' not in request.files:
@@ -51,7 +51,7 @@ def upload_raw():
 
 @app.route('/download/<filename>', methods=['GET'])
 def download(filename):
-    from hay_say_common import character_dir, AUDIO_FOLDER
+    from hay_say_common import characters_dir, AUDIO_FOLDER
     HAY_SWAY_OUT_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_out")
 
     file_path = os.path.join(HAY_SWAY_OUT_DIR, filename)
@@ -61,7 +61,7 @@ def download(filename):
 
 @app.route('/info', methods = ['GET'])
 def info():
-    from hay_say_common import character_dir, AUDIO_FOLDER
+    from hay_say_common import characters_dir, AUDIO_FOLDER
     HAY_SWAY_RAW_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_raw")
     HAY_SWAY_OUT_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_out")
 
@@ -72,6 +72,7 @@ def info():
 
 @app.route('/available_characters', methods=['GET'])
 def available_characters():
+    from hay_say_common import characters_dir, AUDIO_FOLDER
     data = request.get_json()
     arch = data.get('architecture', None)
 

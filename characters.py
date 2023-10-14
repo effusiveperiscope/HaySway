@@ -9,11 +9,11 @@ class CharacterDropdown(QComboBox):
         self.characters = []
 
         response = requests.get(
-            f'http://0.0.0.0:{APP_PORT}/available_characters',
+            f'http://127.0.0.1:{APP_PORT}/available_characters',
             json={'architecture': arch})
         if response.status_code != 200:
             raise Exception("Non-200 status code for character dropdown: "
-                +response.status_code)
+                +str(response.status_code))
         self.characters = response.json['characters']
 
         for c in self.characters:
