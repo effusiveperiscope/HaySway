@@ -37,6 +37,9 @@ def generate():
     # Forward the request to the internal IP and port
     response = requests.post(url, headers={'Content-Type':
         'application/json'}, json=data)
+    print(response.status_code)
+    print(response.content)
+
     return response.content, response.status_code
 
 @app.route('/upload_raw', methods=['POST'])
