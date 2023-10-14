@@ -38,7 +38,7 @@ def generate():
     response = requests.post(url, json=data)
     if response.status_code != 200:
         return "internal error", response.status_code
-    return None
+    return ""
 
 @app.route('/upload_raw', methods=['POST'])
 def upload_raw():
