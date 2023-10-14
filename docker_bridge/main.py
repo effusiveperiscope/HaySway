@@ -32,7 +32,7 @@ def generate():
         return jsonify({'error': 'Invalid architecture'}), 400
 
     destination_port = arch_to_destination[arch]
-    url = "http://"+arch+"_server:"+f"{destination_port}"
+    url = "http://"+arch+"_server:"+f"{destination_port}/generate"
 
     # Forward the request to the internal IP and port
     response = requests.post(url, json=data)
