@@ -4,7 +4,6 @@ import requests
 import os
 from pathlib import Path
 
-MODELS_ROOT = "/root/hay_say/models"
 APP_PORT = 7802
 
 app = Flask(__name__)
@@ -72,7 +71,7 @@ def info():
         })
 
 @app.route('/available_characters', methods=['GET'])
-def downloaded():
+def available_characters():
     data = request.get_json()
     arch = data.get('architecture', None)
 

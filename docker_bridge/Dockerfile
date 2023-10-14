@@ -17,7 +17,7 @@ RUN python3.9 -m venv ~/hay_say/.venvs/hay_sway_bridge;
 RUN ~/hay_say/.venvs/hay_sway_bridge/bin/pip install \
     --no-cache-dir --upgrade pip wheel
 RUN ~/hay_say/.venvs/hay_sway_bridge/bin/pip install \
-    Flask==2.2.3 hay-say-common==0.2.0 requests==2.31.0
+    Flask==2.2.3 hay-say-common==0.2.0 requests==2.31.0 Werkzeug==2.2.3
 
 EXPOSE 7802
 
