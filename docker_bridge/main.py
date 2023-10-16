@@ -65,6 +65,7 @@ def download(filename):
         OUTPUT_DIR, CACHE_EXTENSION)
 
     file_path = os.path.join(OUTPUT_DIR, filename)+CACHE_EXTENSION
+    app.logger.info(file_path)
     if not os.path.exists(file_path):
         return 'No audio file found at '+str(filename), 404
     return send_file(file_path)
