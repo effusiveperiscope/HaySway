@@ -3,8 +3,15 @@ from werkzeug.utils import secure_filename
 import requests
 import os
 from pathlib import Path
+from logging.config import dictConfig
 
 APP_PORT = 7802
+
+dictConfig({
+    'root': {
+        'level': 'INFO'
+    }
+})
 
 app = Flask(__name__)
 
