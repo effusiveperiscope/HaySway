@@ -80,13 +80,14 @@ def download(filename):
 
 @app.route('/info', methods = ['GET'])
 def info():
-    from hay_say_common import characters_dir, AUDIO_FOLDER
+    from hay_say_common import characters_dir, AUDIO_FOLDER, CACHE_EXTENSION
     HAY_SWAY_RAW_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_raw")
     HAY_SWAY_OUT_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_out")
 
     return jsonify({
         'HAY_SWAY_RAW_DIR': HAY_SWAY_RAW_DIR,
-        'HAY_SWAY_OUT_DIR': HAY_SWAY_OUT_DIR
+        'HAY_SWAY_OUT_DIR': HAY_SWAY_OUT_DIR,
+        'CACHE_EXTENSION': CACHE_EXTENSION
         })
 
 @app.route('/available_characters', methods=['GET'])
