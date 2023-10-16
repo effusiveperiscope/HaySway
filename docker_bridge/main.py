@@ -19,9 +19,9 @@ arch_to_destination = {
     "rvc": 6578,
 }
 
-@app.errorhandler(Exception)
-def handle_exception(e):
-    print(e)
+#@app.errorhandler(Exception)
+#def handle_exception(e):
+#    print(e)
 
 @app.route('/generate', methods=['POST'])
 def generate():
@@ -61,9 +61,10 @@ def upload_raw():
 
 @app.route('/download/<filename>', methods=['GET'])
 def download(filename):
-    from hay_say_common import characters_dir, AUDIO_FOLDER, OUTPUT_DIR
+    from hay_say_common import (characters_dir, AUDIO_FOLDER,
+        OUTPUT_DIR, CACHE_EXTENSION)
 
-    file_path = os.path.join(OUTPUT_DIR, filename)
+    file_path = os.path.join(OUTPUT_DIR, filename)+CACHE_EXTENSION
     if not os.path.exists(file_path):
         return 'No audio file found at '+str(filename), 404
     return send_file(file_path)
