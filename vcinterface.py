@@ -21,7 +21,7 @@ class VCInterface:
         os.makedirs(RECORD_DIR, exist_ok=True)
 
         if not config.OFFLINE_DEBUG_MODE:
-            vc_info = requests.get(
+            self.vc_info = requests.get(
                 'http://127.0.0.1:'+str(APP_PORT)+'/info').json()
 
     def input(self, options : dict, user_text : str, user_file_path : str,
@@ -64,7 +64,7 @@ class VCInterface:
            output_filename))
 
         stem = Path(output_path).stem
-        suffix = Path(output_path).suffix
+        suffix = self.vc_info['CACHE_EXTENSION']
 
         i = 0
         while os.path.exists(output_path):
