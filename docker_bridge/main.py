@@ -61,12 +61,11 @@ def upload_raw():
 
 @app.route('/download/<filename>', methods=['GET'])
 def download(filename):
-    from hay_say_common import characters_dir, AUDIO_FOLDER
-    HAY_SWAY_OUT_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_out")
+    from hay_say_common import characters_dir, AUDIO_FOLDER, OUTPUT_DIR
 
-    file_path = os.path.join(HAY_SWAY_OUT_DIR, filename)
+    file_path = os.path.join(OUTPUT_DIR, filename)
     if not os.path.exists(file_path):
-        return abort(404)
+        return 'No audio file found at '+str(filename), 404
     return send_file(file_path)
 
 @app.route('/info', methods = ['GET'])
