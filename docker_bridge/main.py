@@ -8,6 +8,7 @@ from logging.config import dictConfig
 APP_PORT = 7802
 
 dictConfig({
+    'version': 1,
     'root': {
         'level': 'INFO'
     }
