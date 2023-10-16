@@ -37,6 +37,8 @@ def generate():
     # Remove routing; this doesn't need to be part of the json
     final_payload = data
     final_payload.pop('architecture')
+    print(final_payload)
+    print('architecture' in final_payload)
 
     # Forward the request to the internal IP and port
     response = requests.post(url, headers={'Content-Type':
