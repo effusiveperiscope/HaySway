@@ -37,6 +37,7 @@ def generate():
     # Remove otherwise breaks validation
     final_payload = data
     final_payload.pop('architecture', None)
+    data.pop('architecture', None)
 
     # Forward the request to the internal IP and port
     response = requests.post(url, headers={'Content-Type':
