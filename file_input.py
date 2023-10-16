@@ -58,7 +58,7 @@ class AudioFilesInput(QFrame):
         self.files = files
         self.file_label.setText("Files: "+str(files))
         if len(files) > 0:
-            self.preview.setText("Preview - "+str(files[0]))
+            self.preview.set_text("Preview - "+str(files[0]))
             self.preview.from_file(files[0])
 
     def load_files(self, files : list):

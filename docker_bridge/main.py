@@ -62,7 +62,7 @@ def upload_raw():
         return 'No audio file part'
 
     file = request.files['audio_file']
-    filename = secure_filename(Path(file).name)
+    filename = secure_filename(Path(file.filename).name)
     file_path = os.path.join(HAY_SWAY_RAW_DIR, filename)
     file.save(os.path.join(HAY_SWAY_RAW_DIR, filename))
     return jsonify({'saved_file': file.filename})

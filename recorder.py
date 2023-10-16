@@ -1,3 +1,4 @@
+from PyQt5.QtCore import (QUrl)
 from PyQt5.QtWidgets import (QApplication, QComboBox, QMainWindow, QFileDialog,
     QLabel, QFrame, QHBoxLayout, QVBoxLayout, QGroupBox, QSizePolicy,
     QPushButton, QProgressBar)
@@ -8,6 +9,8 @@ from PyQt5.QtMultimedia import (
 from preview import AudioPreviewWidget
 from misc import el_trunc
 import os
+import time
+import numpy as np
 
 RECORD_DIR = "recordings"
 
