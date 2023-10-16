@@ -1,10 +1,11 @@
-from PyQt5.QtCore import (Qt, QMimeData)
+from PyQt5.QtCore import (Qt, QMimeData, QUrl)
 from PyQt5.QtGui import (QDrag)
 from PyQt5.QtWidgets import (QWidget, QApplication, QComboBox, QMainWindow,
                              QFileDialog, QLabel, QFrame, QHBoxLayout,
                              QVBoxLayout, QSlider, QSizePolicy,
                              QPushButton, QStyle)
-from PyQt5.QtMultimedia import (QMediaPlayer)
+from PyQt5.QtMultimedia import (QMediaPlayer, QMediaContent)
+import os
 
 class AudioPreviewWidget(QWidget):
     def __init__(self):
@@ -58,20 +59,17 @@ class AudioPreviewWidget(QWidget):
             self.playing_label.hide()
 
     def from_file(self, path):
-        try:
-            self.player.stop()
-            if hasattr(self, 'audio_buffer'):
-                self.audio_buffer.close()
+        self.player.stop()
+        if hasattr(self, 'audio_buffer'):
+            self.audio_buffer.close()
 
-            self.player.setMedia(QMediaContent(QUrl.fromLocalFile(
-                os.path.abspath(path))))
+        self.player.setMedia(QMediaContent(QUrl.fromLocalFile(
+            os.path.abspath(path))))
 
-            self.play_button.setIcon(self.style().standardIcon(
-                getattr(QStyle, 'SP_MediaPlay')))
+        self.play_button.setIcon(self.style().standardIcon(
+            getattr(QStyle, 'SP_MediaPlay')))
 
-            self.local_file = path
-        except Exception as e:
-            pass
+        self.local_file = path
 
     def drag_hook(self, e):
         if e.buttons() != Qt.LeftButton:
