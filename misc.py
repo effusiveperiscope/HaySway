@@ -1,6 +1,8 @@
 from PyQt5.QtCore import (QSize)
 from PyQt5.QtWidgets import (QFrame, QLineEdit, QLabel, QHBoxLayout, QCheckBox,
     QComboBox, QSizePolicy)
+import unicodedata
+import re
 
 class NumField(QFrame):
     def __init__(self, label : str, default : str, validator):
