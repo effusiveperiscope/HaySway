@@ -31,7 +31,7 @@ class VCInterface:
             with open(user_file_path, 'rb') as user_file:
                 response = requests.post('http://127.0.0.1:'+str(APP_PORT)+
                     '/upload_raw', files = {
-                        'audio_file': (user_file_path, user_file)})
+                    'audio_file': (user_file_path, user_file)})
                 saved_file = response.json()['saved_file']
         else:
             saved_file = ""
@@ -76,4 +76,4 @@ class VCInterface:
                 output_filename), 'wb') as file:
             file.write(response.content)
 
-        return output_file
+        return output_path

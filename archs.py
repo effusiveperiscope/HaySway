@@ -7,7 +7,7 @@ from PyQt5.QtGui import (QIntValidator, QDoubleValidator, QKeySequence,
     QDrag)
 from file_input import AudioFilesInput
 from characters import CharacterDropdown
-from misc import NumField, BoolField, ComboField
+from misc import NumField, BoolField, ComboField, slugify
 from preview import AudioPreviewWidget
 from vcinterface import VCInterface
 from pathlib import Path
@@ -71,7 +71,7 @@ class AbstractVCFrame(QFrame):
         self.output_preview.from_file(file_outputs[0])
 
     def out_filename(self, filename):
-        return Path(filename).stem+".wav"
+        return Path(filename).stem
 
 class ControllableTalkNetFrame(AbstractVCFrame):
     @property
@@ -117,7 +117,8 @@ class ControllableTalkNetFrame(AbstractVCFrame):
 
     def out_filename(self, filename):
         return (f"{Path(filename).stem}_{self.pitch_factor.value}_"
-            f"{self.character_dropdown.currentText()}.wav")
+            f"{self.character_dropdown.currentText()}_"
+            f"{slugify(self.text_input.toPlainText()[0:60])}")
 
 class SoVitsSvc3Frame(AbstractVCFrame):
     @property
@@ -146,7 +147,7 @@ class SoVitsSvc3Frame(AbstractVCFrame):
 
     def out_filename(self, filename):
         return (f"{Path(filename).stem}_{self.pitch_factor.value}_"
-            f"{self.character_dropdown.currentText()}.wav")
+            f"{self.character_dropdown.currentText()}")
 
 class SoVitsSvc4Frame(AbstractVCFrame):
     @property
@@ -193,7 +194,7 @@ class SoVitsSvc4Frame(AbstractVCFrame):
 
     def out_filename(self, filename):
         return (f"{Path(filename).stem}_{self.pitch_factor.value}_"
-            f"{self.character_dropdown.currentText()}.wav")
+            f"{self.character_dropdown.currentText()}")
 
 class SoVitsSvc5Frame(AbstractVCFrame):
     @property
@@ -222,7 +223,7 @@ class SoVitsSvc5Frame(AbstractVCFrame):
 
     def out_filename(self, filename):
         return (f"{Path(filename).stem}_{self.pitch_factor.value}_"
-            f"{self.character_dropdown.currentText()}.wav")
+            f"{self.character_dropdown.currentText()}")
 
 class RVCFrame(AbstractVCFrame):
     @property
@@ -274,4 +275,4 @@ class RVCFrame(AbstractVCFrame):
 
     def out_filename(self, filename):
         return (f"{Path(filename).stem}_{self.pitch_factor.value}_"
-            f"{self.character_dropdown.currentText()}.wav")
+            f"{self.character_dropdown.currentText()}")
