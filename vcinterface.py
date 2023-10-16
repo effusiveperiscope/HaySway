@@ -61,7 +61,7 @@ class VCInterface:
         response = requests.get('http://127.0.0.1:'+str(APP_PORT)+'/download/'+
             output_filename)
         output_path = str(os.path.join(VCInterface.OUTPUT_PATH,
-           output_filename))
+           output_filename))+self.vc_info['CACHE_EXTENSION']
 
         stem = Path(output_path).stem
         suffix = self.vc_info['CACHE_EXTENSION']
@@ -72,8 +72,7 @@ class VCInterface:
             i += 1
 
         with open(
-            os.path.join(VCInterface.OUTPUT_PATH,
-                output_filename), 'wb') as file:
+            os.path.join(output_path), 'wb') as file:
             file.write(response.content)
 
         return output_path
