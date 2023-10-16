@@ -5,6 +5,13 @@ from pathlib import Path
 import requests
 import os
 import config
+import base64
+import json
+
+def extract_message(response):
+    json_response = json.loads(response.content.decode('utf-8'))
+    base64_encoded_message = json_response['message']
+    return base64.b64decode(base64_encoded_message).decode('utf-8')
 
 class VCInterface:
     OUTPUT_PATH = "results"
@@ -47,7 +54,7 @@ class VCInterface:
             headers={'Content-Type': 'application/json'}, json=payload)
         code = response.status_code
         if code != 200:
-            print(response.json())
+            print(extract_message(response))
             raise Exception("Docker bridge returned non-200 error code "+
                 str(code))
 

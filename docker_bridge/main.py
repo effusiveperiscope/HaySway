@@ -34,9 +34,13 @@ def generate():
     destination_port = arch_to_destination[arch]
     url = "http://"+arch+"_server:"+f"{destination_port}/generate"
 
+    # Remove routing; this doesn't need to be part of the json
+    final_payload = data
+    final_payload.pop('architecture')
+
     # Forward the request to the internal IP and port
     response = requests.post(url, headers={'Content-Type':
-        'application/json'}, json=data)
+        'application/json'}, json=final_payload)
     print(response.status_code)
     print(response.content)
 
