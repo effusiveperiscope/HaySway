@@ -14,4 +14,4 @@ Paste this in `docker_compose.yaml`:
       - custom_models:/root/hay_say/custom_models
 ```
 Install python dependencies (`pip install -r requirements.txt`) and run
-`main.py`.
+`python main.py`.
