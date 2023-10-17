@@ -68,7 +68,7 @@ def upload_raw():
 
     try:
         data, sr = sf.read(file)
-        sf.write(file_path, data, samplerate, format=CACHE_FORMAT)
+        sf.write(file_path, data, sr, format=CACHE_FORMAT)
     except Exception as e:
         app.logger.error("Error during conversion: ",str(e))
 
