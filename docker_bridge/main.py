@@ -57,16 +57,14 @@ def generate():
 @app.route('/upload_raw', methods=['POST'])
 def upload_raw():
     from hay_say_common import (characters_dir, AUDIO_FOLDER,
-        CACHE_FORMAT, CACHE_EXTENSION)
-    HAY_SWAY_RAW_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_raw")
-    os.makedirs(HAY_SWAY_RAW_DIR, exist_ok=True)
+        CACHE_FORMAT, CACHE_EXTENSION, PREPROCESSED_DIR)
 
     if 'audio_file' not in request.files:
         return 'No audio file part'
 
     file = request.files['audio_file']
     filename = Path(secure_filename(Path(file.filename).name)).stem
-    file_path = os.path.join(HAY_SWAY_RAW_DIR, filename)+CACHE_EXTENSION
+    file_path = os.path.join(PREPROCESSED_DIR, filename)+CACHE_EXTENSION
 
     try:
         data, sr = sf.read(file)
@@ -90,12 +88,8 @@ def download(filename):
 @app.route('/info', methods = ['GET'])
 def info():
     from hay_say_common import characters_dir, AUDIO_FOLDER, CACHE_EXTENSION
-    HAY_SWAY_RAW_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_raw")
-    HAY_SWAY_OUT_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_out")
 
     return jsonify({
-        'HAY_SWAY_RAW_DIR': HAY_SWAY_RAW_DIR,
-        'HAY_SWAY_OUT_DIR': HAY_SWAY_OUT_DIR,
         'CACHE_EXTENSION': CACHE_EXTENSION
         })
 
