@@ -185,6 +185,7 @@ class SoVitsSvc4Frame(AbstractVCFrame):
             'Architecture': self.id,
             'Character': self.character_dropdown.currentText(),
             'Pitch Shift': int(self.pitch_factor.value),
+            'Predict Pitch': self.predict_pitch.value,
             'Slice Length': 0,
             'Cross-Fade Length': 0,
             'Character Likeness': float(self.character_likeness.value),
