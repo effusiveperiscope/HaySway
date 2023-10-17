@@ -36,8 +36,6 @@ class VCInterface:
         else:
             saved_file = ""
         
-        print(saved_file) #.wav.flac
-
         # Gets the filename Path().name
         output_filename = Path(output_filename_cb(saved_file)).stem
 
@@ -47,7 +45,7 @@ class VCInterface:
             'Inputs': {
                 'User Text': user_text,
                 # hay say common automatically tacks on the extension
-                'User Audio': saved_file 
+                'User Audio': Path(saved_file).stem
             },
             'Options': options,
             'Output File': output_filename
