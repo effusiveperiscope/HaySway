@@ -65,8 +65,8 @@ def upload_raw():
     file = request.files['audio_file']
     filename = secure_filename(Path(file.filename).name)
     file_path = os.path.join(HAY_SWAY_RAW_DIR, filename)
-    file.save(os.path.join(HAY_SWAY_RAW_DIR, filename))
-    return jsonify({'saved_file': file.filename})
+    file.save(file_path)
+    return jsonify({'saved_file': file_path})
 
 @app.route('/download/<filename>', methods=['GET'])
 def download(filename):
