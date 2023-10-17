@@ -35,6 +35,8 @@ class VCInterface:
                 saved_file = response.json()['saved_file']
         else:
             saved_file = ""
+        
+        print(saved_file) #.wav.flac
 
         # Gets the filename Path().name
         output_filename = Path(output_filename_cb(saved_file)).stem

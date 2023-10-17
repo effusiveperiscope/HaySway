@@ -65,7 +65,7 @@ def upload_raw():
         return 'No audio file part'
 
     file = request.files['audio_file']
-    filename = secure_filename(Path(file.filename).name)
+    filename = Path(secure_filename(Path(file.filename).name)).stem
     file_path = os.path.join(HAY_SWAY_RAW_DIR, filename)+CACHE_EXTENSION
 
     try:
