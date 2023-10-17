@@ -72,7 +72,7 @@ def upload_raw():
         data, sr = sf.read(file)
         sf.write(file_path, data, samplerate, format=CACHE_FORMAT)
     except Exception as e:
-        logging.error("Error during conversion: ",str(e))
+        app.logger.error("Error during conversion: ",str(e))
 
     return jsonify({'saved_file': file_path})
 
