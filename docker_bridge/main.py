@@ -57,6 +57,7 @@ def generate():
 def upload_raw():
     from hay_say_common import characters_dir, AUDIO_FOLDER
     HAY_SWAY_RAW_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_raw")
+    os.makedirs(HAY_SWAY_RAW_DIR, exist_ok=True)
 
     if 'audio_file' not in request.files:
         return 'No audio file part'
