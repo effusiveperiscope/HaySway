@@ -41,6 +41,7 @@ class AudioFilesInput(QFrame):
 
         self.file_button = FileButton()
         self.file_button.fileDropped.connect(self.file_cb)
+        self.file_button.clicked.connect(self.file_dialog)
         self.layout.addWidget(self.file_button)
 
         self.file_label = QLabel("Files: "+str(self.files))
@@ -54,12 +55,22 @@ class AudioFilesInput(QFrame):
         self.preview = AudioPreviewWidget()
         self.layout.addWidget(self.preview)
 
+    def file_dialog(self):
+        if not len(recent_dirs.recent_dirs):
+            self.file_cb(QFileDialog.getOpenFileNames(
+                self, "Files to process")[0])
+        else:
+            self.file_cb(QFileDialog.getOpenFileNames(
+                self, "Files to process", recent_dirs.recent_dirs[0])[0])
+
     def file_cb(self, files : list):
         self.files = files
         self.file_label.setText("Files: "+str(files))
         if len(files) > 0:
             self.preview.set_text("Preview - "+str(files[0]))
             self.preview.from_file(files[0])
+        for f in self.files:
+            recent_dirs.update_with_file(f)
 
     def load_files(self, files : list):
         self.file_cb(files)

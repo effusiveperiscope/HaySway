@@ -22,7 +22,11 @@ class RecentDirComboBox(QComboBox):
     def update_contents(self):
         self.clear()
         for d in self.parent.recent_dirs:
-            combo.addItem(RecentDirs.backtruncate_path(d))
+            self.addItem(RecentDirs.backtruncate_path(d))
+
+    @property
+    def recent_dirs(self):
+        return self.parent.recent_dirs
 
 # Shared "recent directories" menu
 class RecentDirs(QObject):
@@ -72,4 +76,4 @@ class RecentDirs(QObject):
             self.recent_dirs.remove(dir_path)
             self.recent_dirs.appendleft(dir_path)
         self.file_updated.emit(dir_path)
-        self.parent.cull_duplicates()
+        self.cull_duplicates()

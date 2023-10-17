@@ -4,6 +4,7 @@ import requests
 import os
 from pathlib import Path
 from logging.config import dictConfig
+import soundfile as sf
 
 APP_PORT = 7802
 
@@ -55,7 +56,8 @@ def generate():
 
 @app.route('/upload_raw', methods=['POST'])
 def upload_raw():
-    from hay_say_common import characters_dir, AUDIO_FOLDER
+    from hay_say_common import (characters_dir, AUDIO_FOLDER,
+        CACHE_FORMAT, CACHE_EXTENSION)
     HAY_SWAY_RAW_DIR = os.path.join(AUDIO_FOLDER,"hay_sway_raw")
     os.makedirs(HAY_SWAY_RAW_DIR, exist_ok=True)
 
@@ -64,8 +66,14 @@ def upload_raw():
 
     file = request.files['audio_file']
     filename = secure_filename(Path(file.filename).name)
-    file_path = os.path.join(HAY_SWAY_RAW_DIR, filename)
-    file.save(file_path)
+    file_path = os.path.join(HAY_SWAY_RAW_DIR, filename)+CACHE_EXTENSION
+
+    try:
+        data, sr = sf.read(file)
+        sf.write(file_path, data, samplerate, format=CACHE_FORMAT)
+    except Exception as e:
+        logging.error("Error during conversion: ",str(e))
+
     return jsonify({'saved_file': file_path})
 
 @app.route('/download/<filename>', methods=['GET'])

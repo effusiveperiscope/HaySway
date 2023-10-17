@@ -37,14 +37,15 @@ class VCInterface:
             saved_file = ""
 
         # Gets the filename Path().name
-        output_filename = output_filename_cb(saved_file)
+        output_filename = Path(output_filename_cb(saved_file)).stem
 
         # Ignoring preprocessing/postprocessing for now
         payload = {
             'architecture': options['Architecture'],
             'Inputs': {
                 'User Text': user_text,
-                'User Audio': saved_file
+                # hay say common automatically tacks on the extension
+                'User Audio': saved_file 
             },
             'Options': options,
             'Output File': output_filename
